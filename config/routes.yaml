@@ -1,0 +1,12 @@
+index:
+    path: /
+    controller: App\Controller\HomeController::index
+
+winner:
+    path: /winner
+    controller: App\Controller\HomeController::winner
+
+minimum_signature:
+    path: /minimum_signature
+    controller: App\Controller\HomeController::minimum_signature
+    

@@ -1,0 +1,15 @@
+{% extends 'layouts/signaturit_base.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+
+{% block content %}
+    {{ content_description }}
+    <div class="clearfix"></div>
+    <div class="row">
+        <a href="{{ path('winner') }}" class="button">Calculate which part will win</a>
+        <a href="{{ path('minimum_signature') }}" class="button">Calculate the minimum signature to win</a>
+    </div>
+{% endblock %}

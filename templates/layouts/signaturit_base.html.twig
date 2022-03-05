@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>
+            {% block title %}Home{% endblock %} - Signaturit
+        </title>
+        {% block stylesheets %}
+            <link href="{{ asset('assets/css/style.css') }}" type="text/css" rel="stylesheet" />
+        {% endblock %}
+    </head>
+    <body>
+        <div id="header">
+            <h1>Signaturit Test</h1>
+            <ul id="menu">
+                <li><a href="{{ path('index') }}">Home</a></li>
+                <li><a href="{{ path('winner') }}">Winner</a></li>
+                <li><a href="{{ path('minimum_signature') }}">Minimun Signature</a></li>
+            </ul>
+        </div>
+        <div class="clearfix"></div>
+        <section id="content">
+            <div class="wrapper">
+                <h1>{{ content_title }}</h1>
+                {% block content %}{% endblock %}
+            <div>
+        </section>
+        <footer>
+        <hr>
+            Test done by Luis Fco. Velasco Vilchez -> velascovilchez@gmail.com
+        </footer>
+    </body>
+</html>
