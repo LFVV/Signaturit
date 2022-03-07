@@ -332,6 +332,13 @@
       <tag name="controller.service_arguments"/>
       <tag name="routing.route_loader"/>
     </service>
+    <service id="App\Command\MinimunSignatureCommand" class="App\Command\MinimunSignatureCommand" autowire="true" autoconfigure="true">
+      <tag name="console.command"/>
+      <tag name="container.no_preload"/>
+      <call method="setName">
+        <argument>app:minimun_signature</argument>
+      </call>
+    </service>
     <service id="App\Command\WinCommand" class="App\Command\WinCommand" autowire="true" autoconfigure="true">
       <tag name="console.command"/>
       <tag name="container.no_preload"/>
@@ -5633,6 +5640,8 @@
       </call>
     </service>
     <service id="twig.missing_extension_suggestor" class="Twig\Extra\TwigExtraBundle\MissingExtensionSuggestor"/>
+    <service id=".instanceof.Symfony\Component\Console\Command\Command.0.App\Command\MinimunSignatureCommand" class="App\Command\MinimunSignatureCommand" autowire="true" abstract="true"/>
+    <service id=".abstract.instanceof.App\Command\MinimunSignatureCommand" class="App\Command\MinimunSignatureCommand" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Component\Console\Command\Command.0.App\Command\WinCommand" class="App\Command\WinCommand" autowire="true" abstract="true"/>
     <service id=".abstract.instanceof.App\Command\WinCommand" class="App\Command\WinCommand" autowire="true" autoconfigure="true" abstract="true"/>
     <service id=".instanceof.Symfony\Contracts\Service\ServiceSubscriberInterface.0.App\Controller\HomeController" class="App\Controller\HomeController" autowire="true" abstract="true"/>
@@ -6928,8 +6937,9 @@
     </service>
     <service id="console.command_loader" class="Symfony\Component\Console\CommandLoader\ContainerCommandLoader" public="true">
       <tag name="container.no_preload"/>
-      <argument type="service" id=".service_locator.dcUEa9r"/>
+      <argument type="service" id=".service_locator.Htko485"/>
       <argument type="collection">
+        <argument key="app:minimun_signature">App\Command\MinimunSignatureCommand</argument>
         <argument key="app:winner">App\Command\WinCommand</argument>
         <argument key="about">console.command.about</argument>
         <argument key="assets:install">console.command.assets_install</argument>
@@ -7027,9 +7037,10 @@
         <argument key="make:migration">maker.auto_command.make_migration</argument>
       </argument>
     </service>
-    <service id=".service_locator.dcUEa9r" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.Htko485" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="App\Command\MinimunSignatureCommand" type="service_closure" id="App\Command\MinimunSignatureCommand"/>
         <argument key="App\Command\WinCommand" type="service_closure" id="App\Command\WinCommand"/>
         <argument key="console.command.about" type="service_closure" id=".console.command.about.lazy"/>
         <argument key="console.command.assets_install" type="service_closure" id=".console.command.assets_install.lazy"/>
