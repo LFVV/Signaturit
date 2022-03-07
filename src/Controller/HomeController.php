@@ -140,7 +140,7 @@ class HomeController extends AbstractController
             }elseif($opposition_party_points > $our_party_points ){
                 $content_description = 'Opposite party wins the trial';
             }else{
-                $content_description = 'Nobody wins the trial s';
+                $content_description = 'Nobody wins the trial';
             }
         }else{
             $content_title = 'The mimimun signature you need is... :';

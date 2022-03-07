@@ -1,0 +1,4 @@
+ced333,::1,GET,http://localhost/signaturit/public/,1646643482,,200
+949752,::1,GET,http://localhost/signaturit/public/minimum_signature,1646643488,,200
+ef0825,::1,POST,http://localhost/signaturit/public/minimum_signature,1646643498,,200
+7b5b9d,::1,POST,http://localhost/signaturit/public/minimum_signature,1646643504,,200
