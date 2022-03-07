@@ -77,15 +77,53 @@ class HomeController extends AbstractController
         ]);
     }
 
-    public function minimum_signature(): Response
+    public function minimum_signature(Request $request): Response
     {
         $title = 'What signatures do I need?';
         $content_title = 'Calculate the minimum signature to win';
         $content_description = 'Enter the signatures of the contract to be evaluated and those of the opponent to know the minimum signature to win, if possible.';
+        $length_constraint = new Length(array('min'=> 2, 'max' => 3));
+        $regex_constraint = new Regex('/[knvKNV#]{1}[knvKNV#]{1}(?![a-jA-JÀ-ÿl-mL-M\u00f1-u\u00d1-U])/');
+        $regex_constraint->message = 'Accepts only uppercase or lowercase letters (k,n,v) and # as empty';
+        $empty = '';
+        $form = $this->createFormBuilder()
+            ->add('our_party',null,array(
+                'constraints' => [
+                    $length_constraint,
+                    $regex_constraint
+                ]
+            ))
+            ->add('opposition_party',null,array(
+                'constraints' => [
+                    $length_constraint,
+                    $regex_constraint
+                ]
+            ))
+            ->add('calculate', SubmitType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $our_count_spaces = substr_count(strtoupper($data['our_party']),' ');
+            $opposition_count_spaces = substr_count(strtoupper($data['opposition_party']),' ');
+            $our_count_pads = substr_count(strtoupper($data['our_party']),'#');
+            $opposition_count_pads = substr_count(strtoupper($data['opposition_party']),'#');
+            if($our_count_spaces > 1 || $our_count_pads > 1 || $opposition_count_spaces > 1 || $opposition_count_pads > 1){
+                $empty = 'Signatures only accepts one empty (space or #)';
+            }elseif($our_count_spaces == 0 && $our_count_pads == 0 && strlen($data['our_party']) == 3){
+                $empty = 'Our party needs one empty (space or #) to calculate';
+            }else{
+                return $this->result('minimun_signature',$form->getData());
+            }
+        }
+
         return $this->render('home/minimum_signature.html.twig', [
             'title' => $title,
             'content_title' =>$content_title,
-            'content_description' =>$content_description
+            'content_description' =>$content_description,
+            'form' => $form->createView(),
+            'empty' => $empty
         ]);
     }
 
@@ -93,10 +131,10 @@ class HomeController extends AbstractController
     {
         $our_party_contract = New Contract($data['our_party']);
         $opposition_party_contract = New Contract($data['opposition_party']);
+        $our_party_points = $our_party_contract->sum();
+        $opposition_party_points = $opposition_party_contract->sum();
         if ($view == 'winner'){
             $content_title = 'And the winner is... :';
-            $our_party_points = $our_party_contract->sum();
-            $opposition_party_points = $opposition_party_contract->sum();
             if($our_party_points > $opposition_party_points){
                 $content_description = 'Our party wins the trial';
             }elseif($opposition_party_points > $our_party_points ){
@@ -105,7 +143,9 @@ class HomeController extends AbstractController
                 $content_description = 'Nobody wins the trial';
             }
         }else{
-
+            $content_title = 'The mimimun signature you need is... :';
+            $result = $our_party_contract->minimun_signature($our_party_contract,$opposition_party_contract);
+            $content_description = $result;
         }
         $title = 'Result';
         return $this->render('home/result.html.twig', [

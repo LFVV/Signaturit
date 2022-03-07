@@ -6,4 +6,8 @@
 
 {% block content %}
     {{ content_description }}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ empty }}
+    {{ form_end(form) }}
 {% endblock %}
