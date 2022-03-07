@@ -9,4 +9,8 @@ winner:
 minimum_signature:
     path: /minimum_signature
     controller: App\Controller\HomeController::minimum_signature
+
+result:
+    path: /result
+    controller: App\Controller\HomeController::result
     
